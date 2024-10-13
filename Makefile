@@ -5,4 +5,6 @@ publish:
 lint:
 	npx eslint .
 gendiff:
-	node bin/gendiff.js
+	node bin/index.js
+test:
+	npm test
