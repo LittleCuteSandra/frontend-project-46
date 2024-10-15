@@ -8,17 +8,24 @@ const checkOnType = (value) => {
   return value;
 };
 
+const checkParent = (parent, key) => {
+  if (parent.length === 0) {
+    return `${key}`;
+  }
+  return `${parent}.${key}`;
+};
+
 const getPlaneFormat = (data, parent = '') => {
   const list = data.map((node) => {
     switch (node.status) {
       case 'deleted':
-        return `Property '${parent.length === 0 ? '' : `${parent}.`}${node.key}' was removed`;
+        return `Property '${checkParent(parent, node.key)}' was removed`;
       case 'added':
-        return `Property '${parent.length === 0 ? '' : `${parent}.`}${node.key}' was added with value: ${checkOnType(node.value)}`;
+        return `Property '${checkParent(parent, node.key)}' was added with value: ${checkOnType(node.value)}`;
       case 'changed':
-        return `Property '${parent.length === 0 ? '' : `${parent}.`}${node.key}' was updated. From ${checkOnType(node.value1)} to ${checkOnType(node.value2)}`;
+        return `Property '${checkParent(parent, node.key)}' was updated. From ${checkOnType(node.value1)} to ${checkOnType(node.value2)}`;
       case 'nested':
-        return getPlaneFormat(node.children, `${parent.length === 0 ? '' : `${parent}.`}${node.key}`);
+        return getPlaneFormat(node.children, `${checkParent(parent, node.key)}`);
       default:
         return '';
     }

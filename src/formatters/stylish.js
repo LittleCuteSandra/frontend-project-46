@@ -8,9 +8,17 @@ const statuses = {
   deleted: '- ',
 };
 
-const getSpaces = (depth) => {
+const getSpacesForValue = (depth) => {
   const spacesNumber = depth * spacesNumberOnLevel - leftMove;
   return ' '.repeat(spacesNumber);
+};
+
+const getSpacesForBracket = (depth) => {
+  if (depth !== 1) {
+    const spacesNumber = depth * spacesNumberOnLevel - leftMove * 2;
+    return ' '.repeat(spacesNumber);
+  }
+  return '';
 };
 
 const outputObj = (value, depth) => {
@@ -18,29 +26,30 @@ const outputObj = (value, depth) => {
     const objKeys = Object.keys(value);
     const objTree = objKeys.map((key) => {
       if (value[key] instanceof Object) {
-        return `${getSpaces(depth)}  ${key}: ${outputObj(value[key], depth + deepenLevel)}`;
+        return `${getSpacesForValue(depth)}  ${key}: ${outputObj(value[key], depth + deepenLevel)}`;
       }
-      return `${getSpaces(depth)}  ${key}: ${value[key]}`;
+      return `${getSpacesForValue(depth)}  ${key}: ${value[key]}`;
     }).join('\n');
-    return `{\n${objTree}\n${getSpaces(depth).slice(0, -leftMove)}}`;
+    return `{\n${objTree}\n${getSpacesForValue(depth).slice(0, -leftMove)}}`;
   }
   return value;
 };
 
-const getStringElement = (depth, status, key, value) => `${getSpaces(depth)}${statuses[status]}${key}: ${outputObj(value, depth + deepenLevel)}`;
+const getStringElement = (depth, status, key, value) => `${getSpacesForValue(depth)}${statuses[status]}${key}: ${outputObj(value, depth + deepenLevel)}`;
 
 const buildTree = (data, depth = 1) => {
   const tree = data.map((item) => {
-    if (item.status === 'nested') {
-      return `${getSpaces(depth)}  ${item.key}: ${buildTree(item.children, depth + 1)}`;
+    switch (item.status) {
+      case 'nested':
+        return `${getSpacesForValue(depth)}  ${item.key}: ${buildTree(item.children, depth + 1)}`;
+      case 'changed':
+        return `${getStringElement(depth, 'deleted', item.key, item.value1)}\n${getStringElement(depth, 'added', item.key, item.value2)}`;
+      default:
+        return getStringElement(depth, item.status, item.key, item.value);
     }
-    if (item.status === 'changed') {
-      return `${getStringElement(depth, 'deleted', item.key, item.value1)}\n${getStringElement(depth, 'added', item.key, item.value2)}`;
-    }
-    return getStringElement(depth, item.status, item.key, item.value);
   }).join('\n');
 
-  return `{\n${tree}\n${depth === 1 ? '' : getSpaces(depth).slice(0, -leftMove)}}`;
+  return `{\n${tree}\n${getSpacesForBracket(depth)}}`;
 };
 
 export default buildTree;
