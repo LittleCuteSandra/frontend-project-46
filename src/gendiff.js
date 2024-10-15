@@ -16,7 +16,7 @@ const gendiff = (filepath1, filepath2, options) => {
   const dataFromFile2 = getData(fullFilepath2);
 
   const compareResult = compare(dataFromFile1, dataFromFile2);
-
+  //console.log(compareResult[1].children);
   console.log(format(options.format, compareResult));
 };
 
