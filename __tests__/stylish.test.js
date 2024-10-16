@@ -1,7 +1,9 @@
 import fs from 'fs';
+import path from 'path';
 import gendiff from '../index.js';
 
-const expectedData = fs.readFileSync('/home/little_cute_chamomile_sandra/frontend-project-46/__fixtures__/expectedStylish.txt', 'utf8');
+const getFullFilepath = (filepath) => path.resolve(process.cwd(), filepath);
+const expectedData = fs.readFileSync(getFullFilepath('__fixtures__/expectedStylish.txt'), 'utf8');
 
 test('compare plain JSON files', () => {
   expect(gendiff('__fixtures__/file1.json', '__fixtures__/file2.json', 'stylish')).toEqual(expectedData);
