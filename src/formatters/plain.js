@@ -1,17 +1,12 @@
 const checkOnType = (value) => {
-  if (typeof value === 'object') {
-    return '[complex value]';
-  }
-  if (typeof value === 'string') {
-    return `'${value}'`;
-  }
+  if (value === null) return null;
+  if (typeof value === 'object') return '[complex value]';
+  if (typeof value === 'string') return `'${value}'`;
   return value;
 };
 
 const checkParent = (parent, key) => {
-  if (parent.length === 0) {
-    return `${key}`;
-  }
+  if (parent.length === 0) return `${key}`;
   return `${parent}.${key}`;
 };
 

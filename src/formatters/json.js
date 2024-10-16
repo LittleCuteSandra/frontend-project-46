@@ -1,7 +1,7 @@
 const getJSONFormat = (data) => {
   const dataToObj = data.map((node) => {
-    const negativeKey = `-${node.key}`;
-    const positiveKey = `+${node.key}`;
+    const negativeKey = `- ${node.key}`;
+    const positiveKey = `+ ${node.key}`;
     switch (node.status) {
       case 'deleted':
         return { [negativeKey]: node.value };
@@ -14,8 +14,8 @@ const getJSONFormat = (data) => {
       default:
         return { [node.key]: node.value };
     }
-  });
-  return JSON.stringify(dataToObj);
+  })
+  return dataToObj;
 };
 
 export default getJSONFormat;

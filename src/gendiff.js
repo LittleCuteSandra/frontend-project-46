@@ -8,7 +8,7 @@ const getFullFilepath = (filepath) => path.resolve(process.cwd(), filepath);
 const getFileFormat = (filepath) => path.extname(filepath).slice(1);
 const getData = (filepath) => parse(fs.readFileSync(filepath, 'utf-8'), getFileFormat(filepath));
 
-const gendiff = (filepath1, filepath2, options) => {
+const gendiff = (filepath1, filepath2, outputFormat) => {
   const fullFilepath1 = getFullFilepath(filepath1);
   const fullFilepath2 = getFullFilepath(filepath2);
 
@@ -17,7 +17,7 @@ const gendiff = (filepath1, filepath2, options) => {
 
   const compareResult = compare(dataFromFile1, dataFromFile2);
 
-  console.log(format(options.format, compareResult));
+  return format(outputFormat, compareResult);
 };
 
 export default gendiff;
