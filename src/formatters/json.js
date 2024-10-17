@@ -14,7 +14,7 @@ const getJSONFormat = (data) => {
       default:
         return { [node.key]: node.value };
     }
-  })
+  });
   return dataToObj;
 };
 

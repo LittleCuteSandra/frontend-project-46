@@ -1,17 +1,15 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
+import globals from 'globals';
+import pluginJs from '@eslint/js';
 import importPlugin from 'eslint-plugin-import';
 
-
 export default [
-  { languageOptions:
-    {
+  { 
+    languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
-      globals:
-      {
+      globals: {
         ...globals.node,
-        ...globals.jest
+        ...globals.jest,
       },
     },
     plugins: { import: importPlugin },
