@@ -3,7 +3,7 @@ import pluginJs from '@eslint/js';
 import importPlugin from 'eslint-plugin-import';
 
 export default [
-  { 
+  {
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
