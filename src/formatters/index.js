@@ -7,7 +7,7 @@ const formOutput = (format, data) => {
     return plain(data);
   }
   if (format === 'json') {
-    return JSON.stringify(json(data));
+    return json(data);
   }
   return stylish(data);
 };

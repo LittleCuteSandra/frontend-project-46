@@ -10,7 +10,7 @@ const checkParent = (parent, key) => {
   return `${parent}.${key}`;
 };
 
-const getPlaneFormat = (data, parent = '') => {
+const getPlainFormat = (data, parent = '') => {
   const list = data.map((node) => {
     switch (node.status) {
       case 'deleted':
@@ -20,7 +20,7 @@ const getPlaneFormat = (data, parent = '') => {
       case 'changed':
         return `Property '${checkParent(parent, node.key)}' was updated. From ${checkOnType(node.value1)} to ${checkOnType(node.value2)}`;
       case 'nested':
-        return getPlaneFormat(node.children, `${checkParent(parent, node.key)}`);
+        return getPlainFormat(node.children, `${checkParent(parent, node.key)}`);
       default:
         return '';
     }
@@ -29,4 +29,4 @@ const getPlaneFormat = (data, parent = '') => {
   return list;
 };
 
-export default getPlaneFormat;
+export default getPlainFormat;
